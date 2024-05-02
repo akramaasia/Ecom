@@ -5,6 +5,7 @@ import { CartDetailEntity } from './entities/cart-detail.entity';
 import { CreateCartDetailDto } from './dto/create-cart-detail.dto';
 import { UpdateCartDetailDto } from './dto/update-cart-detail.dto';
 import { ProductEntity } from 'src/products/entities/product.entity';
+import { CartRepository } from 'src/user/cart.repository';
 
 @Injectable()
 export class CartDetailRepository extends Repository<CartDetailEntity> {
@@ -12,15 +13,18 @@ export class CartDetailRepository extends Repository<CartDetailEntity> {
     super(CartDetailEntity, dataSource.createEntityManager());
   }
   async addToCart(createCartDetailDto: CreateCartDetailDto) {
-    const cartDetails = this.create(
-      createCartDetailDto as Partial<CartDetailEntity>,
-    );
+    // const cartDetails = this.create(
+    //   createCartDetailDto as Partial<CartDetailEntity>,
+    // );
+    
+   const cartValues= new CartDetailEntity()
+   cartValues.cartId=createCartDetailDto.cartId;
 
-    cartDetails.products = createCartDetailDto.productIds.map((id) => ({
+    cartValues.products = createCartDetailDto.productIds.map((id) => ({
       ...new ProductEntity(),
       id,
     }));
-    return this.save(cartDetails);
+    return this.save(cartValues);
   }
   // async addToCart(createCartDetailDto: CreateCartDetailDto) {
   //     const cartDetails = this.create(createCartDetailDto);

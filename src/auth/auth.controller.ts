@@ -16,6 +16,7 @@ import { JwtAuthGuard } from 'src/authguard/jwt.guard';
 import { ContentValue } from './decorators/content.decorator';
 import { Auth } from './decorators/auth.decorator';
 import { CreateAuthDto } from './dto/create-auth.dto';
+import { GetUser } from './decorators/user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -51,8 +52,17 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   status(@Request() req: Request) 
   {
-    console.log("status");
+    console.log();
   }
+
+  @Get('getuserid')
+  @UseGuards(AuthGuard)
+  getUserId(@GetUser() user : UserEntity, req: Request) 
+  {
+    console.log(user.id);
+    return user.id;
+  }
+
   @Public()
   @HttpCode(HttpStatus.OK)
   @Get('content')

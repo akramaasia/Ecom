@@ -1,14 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { CartDetailsService } from './cart-details.service';
 import { CreateCartDetailDto } from './dto/create-cart-detail.dto';
 import { UpdateCartDetailDto } from './dto/update-cart-detail.dto';
+import { JwtAuthGuard } from 'src/authguard/jwt.guard';
+import { GetUser } from 'src/auth/decorators/user.decorator';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { AuthGuard } from 'src/authguard/auth.guard';
 
 @Controller('cart-details')
 export class CartDetailsController {
   constructor(private readonly cartDetailsService: CartDetailsService) {}
 
   @Post()
-  create(@Body() createCartDetailDto: CreateCartDetailDto) {
+  @UseGuards(AuthGuard)
+  create(@GetUser() user: UserEntity,@Body() createCartDetailDto: CreateCartDetailDto) {
+    createCartDetailDto.userId=user.id;
     return this.cartDetailsService.create(createCartDetailDto);
   }
 

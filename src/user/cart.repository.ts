@@ -6,5 +6,10 @@ import {  Injectable } from '@nestjs/common';
 
 export class CartRepository extends Repository<CartEntity> {
   
+  async getuserById(id: number) {
+    return this.findOne({
+      where: { id },
+    });
+  }  
    
 }

@@ -13,10 +13,11 @@ import {
 import { TransactionEntity } from './transaction.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { ProductEntity } from 'src/products/entities/product.entity';
+import { EntityBase } from 'src/base/base.entity';
   
 @Entity('orders')
 
-export class OrdersEntity {
+export class OrdersEntity extends EntityBase{
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -35,6 +36,13 @@ export class OrdersEntity {
       @OneToMany(() => OrderDetailEntity, (orderDetails) => orderDetails.order)
       orderDetails: OrderDetailEntity[];
 
+      @Column({
+        name: 'user_id',
+        nullable: false,
+      })
+      userId: number;
+
+      
       @ManyToOne(
         () => UserEntity,
         (user) => user.orders,
@@ -42,6 +50,9 @@ export class OrdersEntity {
           cascade: true,
         },
       )
+      @JoinColumn({
+        name: 'user_id',
+      })
        user: UserEntity;
       
 

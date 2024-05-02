@@ -31,8 +31,8 @@ export class ProductEntity extends EntityBase {
 @OneToMany(()=> OrderDetailEntity , (orderDetails) => orderDetails.product)
 orderDetails: OrderDetailEntity[];
 
-@Column({name :'cartDetails_id', nullable :true})
-cartDetailsId: number
+// @Column({name :'cartDetails_id', nullable :true})
+// cartDetailsId: number
 
 
 @ManyToMany(() => CartDetailEntity, cartDetail => cartDetail.products)

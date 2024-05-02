@@ -16,13 +16,16 @@ export class OrderRepository extends Repository<OrdersEntity> {
   //   }
 
   async createOrder(createOrderdto: CreateOrderDto) {
-    const orders = this.create(createOrderdto as Partial<OrdersEntity>);
-    orders.products=createOrderdto.productIds.map((id) => ({
+    const values= new OrdersEntity()
+    values.userId=createOrderdto.userId;
+
+    //const orders = this.create(createOrderdto as Partial<OrdersEntity>);
+    values.products=createOrderdto.productIds.map((id) => ({
       ...new ProductEntity(),
       id,
     }));
     
-    return this.save(orders);
+    return this.save(values);
   }
 
   async deleteOrder(id: number) {

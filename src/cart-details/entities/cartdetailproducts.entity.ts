@@ -13,6 +13,7 @@ import { ProductEntity } from 'src/products/entities/product.entity';
 export class CartDetailProductsEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
+  
   @PrimaryColumn({ name: 'cartdetail_id' })
   cartDetailId: number;
 

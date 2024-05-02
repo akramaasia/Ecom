@@ -19,13 +19,21 @@ import { EntityBase } from 'src/base/base.entity';
     @PrimaryGeneratedColumn()
     id: number;
   
+    @Column({
+      name: 'cart_id',
+      nullable: false,
+    })
+    cartId: number;
+
     @ManyToOne(() => CartEntity, (cart) => cart.id, {
       cascade: true,
     })
     @JoinColumn({ name: 'cart_id' })
     cart: CartEntity;
 
-    @ManyToMany(() => ProductEntity, products => products.cartDetails)
+    @ManyToMany(() => ProductEntity, products => products.cartDetails, {
+      cascade: true,
+    })
     @JoinTable({
       name: 'cartdetailsproducts',
       joinColumn: {

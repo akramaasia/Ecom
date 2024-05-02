@@ -4,4 +4,6 @@ export class CreateOrderDto {
     
     @IsOptional()
     productIds : number[];
+
+    userId: number;
 }
