@@ -8,26 +8,21 @@ import { Repository } from 'typeorm';
 import { CartRepository } from 'src/user/cart.repository';
 @Injectable()
 export class CartDetailsService {
-constructor(private readonly cartDetailRepository: CartDetailRepository,
-  @InjectRepository(CartEntity)
-    private readonly cartRepository:Repository<CartEntity>,
-    private readonly  cartCustomRep: CartRepository
- ){}
+  constructor(
+    private readonly cartDetailRepository: CartDetailRepository,
+    @InjectRepository(CartEntity)
+    private readonly cartRepository: Repository<CartEntity>,
+    private readonly cartCustomRep: CartRepository,
+  ) {}
 
- async create(createCartDetailDto: CreateCartDetailDto) {
-    // console.log(this.cartCustomRep.getId)
-    const userId= createCartDetailDto.userId;
-    const cartID=new CartEntity();
-     //const cart= this.cartRepository.findOne(createCartDetailDto.userId)
-    //const cart =await this.cartRepository.findOne({ where: {id} });
-    const cartQuery= await this.cartRepository.createQueryBuilder('cart1')
-    cartQuery.where('cart1.userId= :userId', {userId})
+  async create(createCartDetailDto: CreateCartDetailDto) {
+    const userId = createCartDetailDto.userId;
+    const cartID = new CartEntity();
+    const cartQuery = await this.cartRepository.createQueryBuilder('cart1');
+    cartQuery.where('cart1.userId= :userId', { userId });
     const cart_Id = await cartQuery.getOne();
-    console.log(cart_Id.id)
-   //cartID.id=cart.id;
-    // console.log(id)
-    // console.log(cart)
-    createCartDetailDto.cartId=cart_Id.id;
+    console.log(cart_Id.id);
+    createCartDetailDto.cartId = cart_Id.id;
     return this.cartDetailRepository.addToCart(createCartDetailDto);
   }
 
@@ -36,7 +31,7 @@ constructor(private readonly cartDetailRepository: CartDetailRepository,
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} cartDetail`;
+    return this.cartDetailRepository.getCartDeatialsById(id);
   }
 
   update(id: number, updateCartDetailDto: UpdateCartDetailDto) {

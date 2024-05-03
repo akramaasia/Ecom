@@ -13,12 +13,9 @@ export class CartDetailRepository extends Repository<CartDetailEntity> {
     super(CartDetailEntity, dataSource.createEntityManager());
   }
   async addToCart(createCartDetailDto: CreateCartDetailDto) {
-    // const cartDetails = this.create(
-    //   createCartDetailDto as Partial<CartDetailEntity>,
-    // );
     
-   const cartValues= new CartDetailEntity()
-   cartValues.cartId=createCartDetailDto.cartId;
+    const cartValues = new CartDetailEntity();
+    cartValues.cartId = createCartDetailDto.cartId;
 
     cartValues.products = createCartDetailDto.productIds.map((id) => ({
       ...new ProductEntity(),
@@ -26,31 +23,7 @@ export class CartDetailRepository extends Repository<CartDetailEntity> {
     }));
     return this.save(cartValues);
   }
-  // async addToCart(createCartDetailDto: CreateCartDetailDto) {
-  //     const cartDetails = this.create(createCartDetailDto);
-  //     console.log(cartDetails);
-  //     if (cartDetails.cart != null) {
-
-  //         cartDetails.cart=createCartDetailDto.map((id) => ({
-  //         ...new OrderDetailEntity(),
-  //         id,
-  //       }));
-  //     }
-  //     return this.save(orders);
-  //   }
-
-  //   async addToCart(order: CreateOrderDto) {
-  //     const orders = this.create(order);
-  //     console.log(orders);
-  //     if (orders.orderDetails != null) {
-  //       orders.orderDetails = order.orderDetails.map((id) => ({
-  //         ...new OrderDetailEntity(),
-  //         id,
-  //       }));
-  //     }
-  //     return this.save(orders);
-  //   }
-
+  
   async deleteCartDetails(id: number) {
     const cartDetail = await this.findOne({ where: { id } });
     return this.remove(cartDetail);
@@ -68,6 +41,9 @@ export class CartDetailRepository extends Repository<CartDetailEntity> {
   async getCartDeatialsById(id: number) {
     return this.findOne({
       where: { id },
+      relations: {
+        products: true,
+      },
     });
   }
 
@@ -75,7 +51,7 @@ export class CartDetailRepository extends Repository<CartDetailEntity> {
     id: number,
     updateCartDetailsDto: UpdateCartDetailDto,
   ) {
-    // const cartDetails = await this.findOne({ where: { id } });
-    // return this.save({ ...cartDetails, ...updateCartDetailsDto });
+    const cartDetails = await this.findOne({ where: { id } });
+    return this.save({ ...cartDetails, ...updateCartDetailsDto });
   }
 }

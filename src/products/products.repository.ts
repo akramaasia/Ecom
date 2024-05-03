@@ -21,8 +21,7 @@ export class ProductRepository extends Repository<ProductEntity> {
   async getProducts() {
     return this.find({
       relations: {
-        category: true,
-        cartDetails: true
+        category: true
       },
     }).catch((error) => {
       throw new NotFoundException(error);

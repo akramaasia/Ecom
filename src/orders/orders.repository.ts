@@ -11,20 +11,15 @@ export class OrderRepository extends Repository<OrdersEntity> {
   constructor(private dataSource: DataSource) {
     super(OrdersEntity, dataSource.createEntityManager());
   }
-  //   async createOrder(createOrderDto: CreateOrderDto) {
-  //     return this.save(createOrderDto);
-  //   }
 
   async createOrder(createOrderdto: CreateOrderDto) {
-    const values= new OrdersEntity()
-    values.userId=createOrderdto.userId;
-
-    //const orders = this.create(createOrderdto as Partial<OrdersEntity>);
-    values.products=createOrderdto.productIds.map((id) => ({
+    const values = new OrdersEntity();
+    values.userId = createOrderdto.userId;
+    values.products = createOrderdto.productIds.map((id) => ({
       ...new ProductEntity(),
       id,
     }));
-    
+
     return this.save(values);
   }
 
@@ -50,6 +45,6 @@ export class OrderRepository extends Repository<OrdersEntity> {
 
   async updateOrders(id: number, updateOutletDto: UpdateOrderDto) {
     const order = await this.findOne({ where: { id } });
-    //return this.save({ ...order, ...updateOutletDto });
+    return this.save({ ...order, ...updateOutletDto });
   }
 }

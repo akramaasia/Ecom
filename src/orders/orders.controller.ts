@@ -25,7 +25,6 @@ export class OrdersController {
   create(@GetUser() user: UserEntity, @Body() createOrderDto: CreateOrderDto) {
     console.log(user.id);
     createOrderDto.userId = user.id;
-    //console.log(createOrderDto.userId);
     return this.ordersService.create(createOrderDto);
   }
 
