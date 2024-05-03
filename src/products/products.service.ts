@@ -5,19 +5,28 @@ import { ProductRepository } from './products.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from './entities/Catagories.entity';
 import { Repository } from 'typeorm';
+import { CreateProductCategoryDto } from './dto/create-productcategory.dto';
 
 @Injectable()
 export class ProductsService {
   constructor(
     private readonly productRepository: ProductRepository,
+    @InjectRepository(CategoryEntity)
+    private readonly categoryRepository: Repository<CategoryEntity>
     ) {}
 
   create(createProductDto: CreateProductDto) {
     return this.productRepository.createProduct(createProductDto);
   }
+  createCategory(createProductCategoryDto: CreateProductCategoryDto) {
+    return this.categoryRepository.save(createProductCategoryDto);
+  }
   
   findAll() {
-    return this.productRepository.getProducts();
+    return this.productRepository.getProducts();  
+  }
+  findAllCategories() {
+    return this.categoryRepository.find();
   }
 
   findOne(id: number) {

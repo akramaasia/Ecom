@@ -10,6 +10,7 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductCategoryDto } from './dto/create-productcategory.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -19,10 +20,18 @@ export class ProductsController {
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
+  @Post('categories')
+  createCategory(@Body() createProductCategoryDto: CreateProductCategoryDto) {
+    return this.productsService.createCategory(createProductCategoryDto);
+  }
 
   @Get()
   findAll() {
     return this.productsService.findAll();
+  }
+  @Get("categories")
+  findAllCategories() {
+    return this.productsService.findAllCategories();
   }
 
   @Get(':id')

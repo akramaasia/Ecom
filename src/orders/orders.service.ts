@@ -20,7 +20,6 @@ export class OrdersService {
 
   async create(createOrderDto: CreateOrderDto) {
     const userId = createOrderDto.userId;
-    console.log(userId);
     const cartQuery = await this.cartRepository.createQueryBuilder('cart');
     cartQuery.where('cart.userId= :userId', { userId });
     const cartId = await cartQuery.getOne();
