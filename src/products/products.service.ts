@@ -19,44 +19,14 @@ export class ProductsService {
     return this.productRepository.createProduct(createProductDto);
   }
 
-  // async create(createCartDetailDto: CreateCartDetailDto) {
-  //   const userId = createCartDetailDto.userId;
-  //   const cartID = new CartEntity();
-  //   const cartQuery = await this.cartRepository.createQueryBuilder('cart1');
-  //   cartQuery.where('cart1.userId= :userId', { userId });
-  //   const cart_Id = await cartQuery.getOne();
-  //   createCartDetailDto.cartId = cart_Id.id;
-  //   return this.cartDetailRepository.addToCart(createCartDetailDto);
-  // }
-
+  
   async findAll() {
     const products = await this.productRepository.getProducts();
+    return products;
    
-    // console.log(products);
-    // let appendedValues = "";
-    // for (let i = 0; i < products.length; i++) {
-    //   const product = products[i];
-    //   console.log(`Product: ${product.name}`);
-    //   console.log(product.category.id);
-    //   const parentsID=await this.findCategoryById(product.category.id)
-    //   console.log(parentsID)
-    //   //product.category.parentCategory_id=product.category.id
-    //   console.log(product.category.id);
-     
-    // }
-   return products;
-    // return
   }
 
-  // async findProductCategoryParentId(categoryId) {
-  //   const productCategory = findCategoryById(categoryId);
-  //   return productCategory ? productCategory.parentId : null;
-  // }
-  // async findCategoryById(id) {
-  //   // This is a placeholder function assuming you have a categories array or a database query to fetch categories
-  //   return categories.find(category => category.id === id);
-  // }
-
+  
   findOne(id: number) {
     return this.productRepository.getProductById(id);
   }
@@ -79,6 +49,7 @@ export class ProductsService {
     return this.categoryRepository
       .find({
         relations: {
+          parentCategory: true,
           products: true,
         },
       })
@@ -90,9 +61,10 @@ export class ProductsService {
   findCategoryById(id: number) {
     return this.categoryRepository.findOne({
       where: { id },
-      // relations: {
-      //   products: true
-      // },
+      relations: {
+        parentCategory:true,
+        products: true
+      },
     });
   }
 
