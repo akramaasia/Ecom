@@ -10,6 +10,7 @@ export class ProductRepository extends Repository<ProductEntity> {
     super(ProductEntity, dataSource.createEntityManager());
   }
   async createProduct(createProductDto: CreateProductDto) {
+    console.log(createProductDto)
     return this.save(createProductDto);
   }
 

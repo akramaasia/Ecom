@@ -12,7 +12,7 @@ export class UserRepository extends Repository<UserEntity> {
   
   async findUserDetails(username: string): Promise<UserEntity | undefined> {
     return this.findOneBy({ username });
-  }
+  } 
 
   async createUser(user: UserEntity, cart : CartEntity): Promise<UserEntity> {
     try {

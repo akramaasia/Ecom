@@ -18,22 +18,9 @@ export class ProductEntity extends EntityBase {
   @Column()
   description: string;
 
-  // @OneToMany(() => CategoryEntity, (category) => category.products)
-  // category: CategoryEntity;
-  @ManyToOne(
-    () => CategoryEntity,
-    (category) => category.products,
-    {
-      onDelete: 'CASCADE',
-      cascade: true,
-    },
-  )
-  @JoinColumn({
-    name: 'category_id',
-  })
-   category: CategoryEntity;
-
-
+  @ManyToOne(() => CategoryEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'category_id' })
+  category: CategoryEntity;
 
   @ManyToOne(() => OutletEntity, (outlet) => outlet.productItems, {
     onDelete: 'CASCADE',
