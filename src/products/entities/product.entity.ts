@@ -18,14 +18,27 @@ export class ProductEntity extends EntityBase {
   @Column()
   description: string;
 
-  @ManyToOne(() => CategoryEntity, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'category_id' })
-  category: CategoryEntity;
+  // @OneToMany(() => CategoryEntity, (category) => category.products)
+  // category: CategoryEntity;
+  @ManyToOne(
+    () => CategoryEntity,
+    (category) => category.products,
+    {
+      onDelete: 'CASCADE',
+      cascade: true,
+    },
+  )
+  @JoinColumn({
+    name: 'category_id',
+  })
+   category: CategoryEntity;
+
+
 
   @ManyToOne(() => OutletEntity, (outlet) => outlet.productItems, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'outlet_id' })
+  @JoinColumn({ name: 'outlet_id' ,})
   outlet: ProductEntity;
 
 @OneToMany(()=> OrderDetailEntity , (orderDetails) => orderDetails.product)

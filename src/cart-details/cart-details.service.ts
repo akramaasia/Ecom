@@ -21,7 +21,6 @@ export class CartDetailsService {
     const cartQuery = await this.cartRepository.createQueryBuilder('cart1');
     cartQuery.where('cart1.userId= :userId', { userId });
     const cart_Id = await cartQuery.getOne();
-    console.log(cart_Id.id);
     createCartDetailDto.cartId = cart_Id.id;
     return this.cartDetailRepository.addToCart(createCartDetailDto);
   }
@@ -35,7 +34,7 @@ export class CartDetailsService {
   }
 
   update(id: number, updateCartDetailDto: UpdateCartDetailDto) {
-    return `This action updates a #${id} cartDetail`;
+    return this.cartDetailRepository.updateCartDetails(id, updateCartDetailDto)
   }
 
   remove(id: number) {

@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
+import { ProductEntity } from './product.entity';
 
 @Entity('productCategories')
 export class CategoryEntity {
@@ -17,7 +19,12 @@ export class CategoryEntity {
   @Column({ nullable: true })
   parentCategory_id: number;
 
-  @ManyToOne(() => CategoryEntity, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'parentCategory_id' })
-  parentCategory: CategoryEntity;
+  // @ManyToOne(() => ProductEntity, { onDelete: 'CASCADE' })
+  // @JoinColumn({ name: 'parentCategory_id' })
+  // products: ProductEntity[];
+
+  @OneToMany(() => ProductEntity, (product) => product.category, {
+    onDelete: 'CASCADE',
+  },)
+  products: ProductEntity[];
 }

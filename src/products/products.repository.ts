@@ -30,6 +30,9 @@ export class ProductRepository extends Repository<ProductEntity> {
   async getProductById(id: number) {
     return this.findOne({
       where: { id },
+      relations: {
+        category: true
+      },
     });
   }
 
